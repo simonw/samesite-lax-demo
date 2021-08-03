@@ -34,7 +34,7 @@ async def set_demo_cookie(request):
 
 app = Starlette(
     routes=[
-        Route("/", homepage),
+        Route("/", homepage, methods=["GET", "POST"]),
         Route("/set", set_demo_cookie, methods=["POST"]),
     ]
 )
