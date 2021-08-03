@@ -1,0 +1,14 @@
+<html>
+<head><title>SameSite=Lax demo</title>
+<style>body { font-family: verdana; margin: 1em 3em; }</style>
+</head>
+<body>
+<h1>SameSite=Lax demo</h1>
+<p>Navigate to <a href="https://samesite-lax-demo.vercel.app/">https://samesite-lax-demo.vercel.app/</a> and use the tool there to set a SameSite=Lax cookie.</p>
+<p>Come back here and try navigating back to that site using these two methods:</p>
+<p><strong>This link:</strong> <a href="https://samesite-lax-demo.vercel.app/">https://samesite-lax-demo.vercel.app/</a> - do you see the cookie you set?</p>
+<p>Now fire up the browser developer tools network panel and click this button - did it send the cookie header?</p>
+<form action="https://samesite-lax-demo.vercel.app/" method="POST">
+  <p><input type="submit" value="Submit POST form targetting samesite-lax-demo.vercel.app"></p>
+</form>
+</body></html>
