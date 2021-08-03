@@ -134,7 +134,9 @@ app = Starlette(
     ],
     middleware=[
         Middleware(
-            CORSMiddleware, allow_origins=["simonw.github.io"], allow_methods=["*"]
+            CORSMiddleware,
+            allow_origins=["https://simonw.github.io"],
+            allow_methods=["*"],
         )
     ],
 )
