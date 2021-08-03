@@ -57,9 +57,7 @@ async def homepage(request):
 async def set_cookie(request, samesite="lax", secure=False):
     response = RedirectResponse("/", status_code=302)
     name = samesite or "missing"
-    response.set_cookie(
-        "{}-demo".format(name), name, samesite=samesite, secure=secure
-    )
+    response.set_cookie("{}-demo".format(name), name, samesite=samesite, secure=secure)
     return response
 
 
@@ -134,5 +132,9 @@ app = Starlette(
         Route("/cookies.svg", cookies_svg, methods=["GET"]),
         Route("/cookies.json", cookies_json, methods=["GET", "POST"]),
     ],
-    middleware=[Middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"])],
+    middleware=[
+        Middleware(
+            CORSMiddleware, allow_origins=["simonw.github.io"], allow_methods=["*"]
+        )
+    ],
 )
