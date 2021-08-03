@@ -60,6 +60,13 @@
       POST:
       <pre id="cookies-post"></pre>
     </div>
+    <p>That endpoint has these CORS headers:</p>
+    <ul>
+      <li>
+        <code>access-control-allow-origin: https://simonw.github.io</code>
+      </li>
+      <li><code>access-control-allow-credentials: true</code></li>
+    </ul>
     <script>
       fetch("https://samesite-lax-demo.vercel.app/cookies.json", {
         credentials: "include",
