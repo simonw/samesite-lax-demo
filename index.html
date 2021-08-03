@@ -71,6 +71,10 @@
             null,
             4
           );
+        }).catch(function(error) {
+          var el = document.getElementById("cookies-get");
+          el.innerText = error.toString();
+          el.style.color = 'red';
         });
       fetch("https://samesite-lax-demo.vercel.app/cookies.json", {
         method: "POST",
@@ -83,6 +87,10 @@
             null,
             4
           );
+        }).catch(function(error) {
+          var el = document.getElementById("cookies-post");
+          el.innerText = error.toString();
+          el.style.color = 'red';
         });
     </script>
   </body>
