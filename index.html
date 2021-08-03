@@ -1,33 +1,89 @@
 <html>
-<head><title>SameSite=Lax demo</title>
-<style>
-body {
-  font-family: verdana;
-  margin: 1em 3em;
-}
-</style>
-</head>
-<body>
-<h1>SameSite=Lax demo</h1>
-<p>Navigate to <a href="https://samesite-lax-demo.vercel.app/">https://samesite-lax-demo.vercel.app/</a> and use the tool there to set a SameSite=Lax cookie.</p>
-<p>Come back here and try navigating back to that site using these two methods:</p>
-<p><strong>This link:</strong> <a href="https://samesite-lax-demo.vercel.app/">https://samesite-lax-demo.vercel.app/</a> - do you see the cookie you set?</p>
-<p>Now fire up the browser developer tools network panel and click this button - did it send the cookie header?</p>
-<form action="https://samesite-lax-demo.vercel.app/" method="POST">
-  <p><input type="submit" value="Submit POST form targeting samesite-lax-demo.vercel.app"></p>
-</form>
-<p>Cookies on the other domain as an SVG image embedded from <code>https://samesite-lax-demo.vercel.app/cookies.svg</code>:</p>
-<img style="border: 2px solid red" src="https://samesite-lax-demo.vercel.app/cookies.svg">
-<p>JSON data returned by <code>fetch("https://samesite-lax-demo.vercel.app/cookies.json")</code></p>
-<p>GET: <pre id="cookies-get"></pre></p>
-<p>POST: <pre id="cookies-post"></pre></p>
-<script>
-fetch("https://samesite-lax-demo.vercel.app/cookies.json").then(r => r.json()).then(d => {
-  document.getElementById("cookies-get").innerText = JSON.stringify(d, null, 4);
-});
-fetch("https://samesite-lax-demo.vercel.app/cookies.json", {method: 'POST'}).then(r => r.json()).then(d => {
-  document.getElementById("cookies-post").innerText = JSON.stringify(d, null, 4);
-});
-</script>
-</body>
+  <head>
+    <title>SameSite=Lax demo</title>
+    <style>
+      body {
+        font-family: verdana;
+        margin: 1em 3em;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>SameSite=Lax demo</h1>
+    <p>
+      Navigate to
+      <a href="https://samesite-lax-demo.vercel.app/"
+        >https://samesite-lax-demo.vercel.app/</a
+      >
+      and use the tool there to set a SameSite=Lax cookie.
+    </p>
+    <p>
+      Come back here and try navigating back to that site using these two
+      methods:
+    </p>
+    <p>
+      <strong>This link:</strong>
+      <a href="https://samesite-lax-demo.vercel.app/"
+        >https://samesite-lax-demo.vercel.app/</a
+      >
+      - do you see the cookie you set?
+    </p>
+    <p>
+      Now fire up the browser developer tools network panel and click this
+      button - did it send the cookie header?
+    </p>
+    <form action="https://samesite-lax-demo.vercel.app/" method="POST">
+      <p>
+        <input
+          type="submit"
+          value="Submit POST form targeting samesite-lax-demo.vercel.app"
+        />
+      </p>
+    </form>
+    <p>
+      Cookies on the other domain as an SVG image embedded from
+      <code>https://samesite-lax-demo.vercel.app/cookies.svg</code>:
+    </p>
+    <img
+      style="border: 2px solid red"
+      src="https://samesite-lax-demo.vercel.app/cookies.svg"
+    />
+    <p>
+      JSON data returned by
+      <code>fetch("https://samesite-lax-demo.vercel.app/cookies.json")</code>
+    </p>
+    <div>
+      GET:
+      <pre id="cookies-get"></pre>
+    </div>
+    <div>
+      POST:
+      <pre id="cookies-post"></pre>
+    </div>
+    <script>
+      fetch("https://samesite-lax-demo.vercel.app/cookies.json", {
+        credentials: "include",
+      })
+        .then((r) => r.json())
+        .then((d) => {
+          document.getElementById("cookies-get").innerText = JSON.stringify(
+            d,
+            null,
+            4
+          );
+        });
+      fetch("https://samesite-lax-demo.vercel.app/cookies.json", {
+        method: "POST",
+        credentials: "include",
+      })
+        .then((r) => r.json())
+        .then((d) => {
+          document.getElementById("cookies-post").innerText = JSON.stringify(
+            d,
+            null,
+            4
+          );
+        });
+    </script>
+  </body>
 </html>
