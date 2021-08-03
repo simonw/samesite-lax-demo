@@ -15,22 +15,22 @@ async def homepage(request):
     <h1>SameSite=Lax demo</h1>
     <p>Current cookies: <code>%s</code></p>
     <form action="/set-lax" method="POST">
-      <p>Set "lax-demo" cookie: <input type="text" name="demo">
+      <p>Set "lax-demo" cookie: <input type="text" name="demo" value="lax-demo">
       <input type="submit" value="Set SameSite=Lax cookie">
       </p>
     </form>
     <form action="/set-none" method="POST">
-      <p>Set "none-demo" cookie: <input type="text" name="demo">
+      <p>Set "none-demo" cookie: <input type="text" name="demo" value="none-demo">
       <input type="submit" value="Set SameSite=None cookie">
       </p>
     </form>
     <form action="/set-strict" method="POST">
-      <p>Set "strict-demo" cookie: <input type="text" name="demo">
+      <p>Set "strict-demo" cookie: <input type="text" name="demo" value="strict-demo">
       <input type="submit" value="Set SameSite=Strict cookie">
       </p>
     </form>
     <form action="/set-missing" method="POST">
-      <p>Set "missing-demo" cookie: <input type="text" name="demo">
+      <p>Set "missing-demo" cookie: <input type="text" name="demo" value="missing-demo">
       <input type="submit" value="Set cookie with no SameSite at all">
       </p>
     </form>
