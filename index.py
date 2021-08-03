@@ -5,9 +5,21 @@ from starlette.middleware import Middleware
 from starlette.middleware.cors import CORSMiddleware
 from pprint import pformat
 import html
+import time
+
+PROJECT_EPOCH = 1628017969
+
+
+def relative_time():
+    return int(time.time()) - PROJECT_EPOCH
 
 
 async def homepage(request):
+    cookie_info = []
+    for name, value in request.cookies.items():
+        if value.isdigit():
+            value += " ({} seconds ago)".format(relative_time() - int(value))
+        cookie_info.append("<li>{}={}</li>".format(name, value))
     return HTMLResponse(
         """
     <html>
@@ -17,6 +29,7 @@ async def homepage(request):
     <body>
     <h1>SameSite=Lax demo</h1>
     <p>Current cookies: <code>%s</code></p>
+    %s
     <p>Set all four cookies at once (recommended):</p>
     <form action="/set-all" method="POST">
       <input type="submit" value="Set all four demo cookies">
@@ -50,14 +63,16 @@ async def homepage(request):
     <p>Cookies as an SVG image:</p>
     <img style="border: 2px solid red" src="/cookies.svg">
 """
-        % repr(request.cookies)
+        % (repr(request.cookies), "\n".join(cookie_info))
     )
 
 
 async def set_cookie(request, samesite="lax", secure=False):
     response = RedirectResponse("/", status_code=302)
     name = samesite or "missing"
-    response.set_cookie("{}-demo".format(name), name, samesite=samesite, secure=secure)
+    response.set_cookie(
+        "{}-demo".format(name), relative_time(), samesite=samesite, secure=secure
+    )
     return response
 
 
@@ -90,7 +105,7 @@ async def set_all(request):
     ):
         name = samesite or "missing"
         response.set_cookie(
-            "{}-demo".format(name), name, samesite=samesite, secure=secure
+            "{}-demo".format(name), relative_time(), samesite=samesite, secure=secure
         )
     return response
 
