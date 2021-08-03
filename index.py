@@ -87,8 +87,8 @@ async def set_all(request):
     response = RedirectResponse("/", status_code=302)
     for samesite, secure in (
         ("lax", False),
-        ("none", False),
-        ("strict", True),
+        ("none", True),
+        ("strict", False),
         (None, False),
     ):
         name = samesite or "missing"
