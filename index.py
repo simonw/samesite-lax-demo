@@ -1,6 +1,8 @@
 from starlette.applications import Starlette
-from starlette.responses import Response, HTMLResponse, RedirectResponse
+from starlette.responses import Response, HTMLResponse, RedirectResponse, JSONResponse
 from starlette.routing import Route
+from starlette.middleware import Middleware
+from starlette.middleware.cors import CORSMiddleware
 from pprint import pformat
 import html
 
@@ -39,6 +41,7 @@ async def homepage(request):
       <input type="submit" value="Delete ALL cookies">
       </p>
     </form>
+    <p>See your cookies as JSON: <a href="/cookies.json">/cookies.json</a></p>
     <p>Once you have set some cookies visit <a href="https://simonw.github.io/samesite-lax-demo/">https://simonw.github.io/samesite-lax-demo/</a> to try navigating back to this page.</p>
     <p>More information in <a href="https://github.com/simonw/samesite-lax-demo/blob/main/README.md">this README</a>.</p>
     <p>Cookies as an SVG image:</p>
@@ -93,14 +96,25 @@ async def cookies_svg(request):
     )
 
 
+async def cookies_json(request):
+    return JSONResponse(request.cookies)
+
+
+async def favicon_ico(request):
+    return Response("")
+
+
 app = Starlette(
     routes=[
         Route("/", homepage, methods=["GET", "POST"]),
+        Route("/favicon.ico", favicon_ico, methods=["GET"]),
         Route("/set-lax", set_cookie, methods=["POST"]),
         Route("/set-none", set_none, methods=["POST"]),
         Route("/set-strict", set_strict, methods=["POST"]),
         Route("/set-missing", set_missing, methods=["POST"]),
         Route("/delete-all-cookies", delete_all_cookies, methods=["POST"]),
         Route("/cookies.svg", cookies_svg, methods=["GET"]),
-    ]
+        Route("/cookies.json", cookies_json, methods=["GET", "POST"]),
+    ],
+    middleware=[Middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"])],
 )
