@@ -17,26 +17,29 @@ async def homepage(request):
     <body>
     <h1>SameSite=Lax demo</h1>
     <p>Current cookies: <code>%s</code></p>
+    <p>Set all four cookies at once (recommended):</p>
+    <form action="/set-all" method="POST">
+      <input type="submit" value="Set all four demo cookies">
+      </p>
+    </form>
+    <p>Or set them individually:</p>
     <form action="/set-lax" method="POST">
-      <p>Set "lax-demo" cookie: <input type="text" name="demo" value="lax-demo">
-      <input type="submit" value="Set SameSite=Lax cookie">
+      <input type="submit" value="Set SameSite=Lax cookie called lax-demo">
       </p>
     </form>
     <form action="/set-none" method="POST">
-      <p>Set "none-demo" cookie: <input type="text" name="demo" value="none-demo">
-      <input type="submit" value="Set SameSite=None cookie">
+      <input type="submit" value="Set SameSite=None cookie called none-demo">
       </p>
     </form>
     <form action="/set-strict" method="POST">
-      <p>Set "strict-demo" cookie: <input type="text" name="demo" value="strict-demo">
-      <input type="submit" value="Set SameSite=Strict cookie">
+      <input type="submit" value="Set SameSite=Strict cookie called strict-demo">
       </p>
     </form>
     <form action="/set-missing" method="POST">
-      <p>Set "missing-demo" cookie: <input type="text" name="demo" value="missing-demo">
-      <input type="submit" value="Set cookie with no SameSite at all">
+      <input type="submit" value="Set cookie with no SameSite at all called missing-demo">
       </p>
     </form>
+    <p>Reset this demo:</p>
     <form action="/delete-all-cookies" method="POST">
       <input type="submit" value="Delete ALL cookies">
       </p>
@@ -80,6 +83,21 @@ async def delete_all_cookies(request):
     return response
 
 
+async def set_all(request):
+    response = RedirectResponse("/", status_code=302)
+    for samesite, secure in (
+        ("lax", False),
+        ("none", False),
+        ("strict", True),
+        (None, False),
+    ):
+        name = samesite or "missing"
+        response.set_cookie(
+            "{}-demo".format(name), name, samesite=samesite, secure=secure
+        )
+    return response
+
+
 async def cookies_svg(request):
     lines = []
     for i, (name, value) in enumerate(request.cookies.items()):
@@ -108,6 +126,7 @@ app = Starlette(
     routes=[
         Route("/", homepage, methods=["GET", "POST"]),
         Route("/favicon.ico", favicon_ico, methods=["GET"]),
+        Route("/set-all", set_all, methods=["POST"]),
         Route("/set-lax", set_cookie, methods=["POST"]),
         Route("/set-none", set_none, methods=["POST"]),
         Route("/set-strict", set_strict, methods=["POST"]),
