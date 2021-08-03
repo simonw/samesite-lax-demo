@@ -137,6 +137,7 @@ app = Starlette(
             CORSMiddleware,
             allow_origins=["https://simonw.github.io"],
             allow_methods=["*"],
+            allow_credentials=True,
         )
     ],
 )
