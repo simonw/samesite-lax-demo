@@ -17,5 +17,17 @@ body {
   <p><input type="submit" value="Submit POST form targeting samesite-lax-demo.vercel.app"></p>
 </form>
 <p>Cookies on the other domain as an SVG image embedded from <code>https://samesite-lax-demo.vercel.app/cookies.svg</code>:</p>
-    <img style="border: 2px solid red" src="https://samesite-lax-demo.vercel.app/cookies.svg">
-</body></html>
+<img style="border: 2px solid red" src="https://samesite-lax-demo.vercel.app/cookies.svg">
+<p>JSON data returned by <code>fetch("https://samesite-lax-demo.vercel.app/cookies.json")</code></p>
+<p>GET: <pre id="cookies-get"></pre></p>
+<p>POST: <pre id="cookies-post"></pre></p>
+<script>
+fetch("https://samesite-lax-demo.vercel.app/cookies.json").then(r => r.json()).then(d => {
+  document.getElementById("cookies-get").innerText = JSON.stringify(d, null, 4);
+});
+fetch("https://samesite-lax-demo.vercel.app/cookies.json", {method: 'POST'}).then(r => r.json()).then(d => {
+  document.getElementById("cookies-post").innerText = JSON.stringify(d, null, 4);
+});
+</script>
+</body>
+</html>
