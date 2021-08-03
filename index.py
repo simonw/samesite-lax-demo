@@ -29,6 +29,8 @@ async def homepage(request):
       <input type="submit" value="Set SameSite=Strict cookie">
       </p>
     </form>
+    <p>Once you have set some cookies visit <a href="https://simonw.github.io/samesite-lax-demo/">https://simonw.github.io/samesite-lax-demo/</a> to try navigating back to this page.</p>
+    <p>More information in <a href="https://github.com/simonw/samesite-lax-demo/blob/main/README.md">this README</a>.</p>
 """
         % repr(request.cookies)
     )
