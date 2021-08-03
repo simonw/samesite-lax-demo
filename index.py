@@ -41,16 +41,16 @@ async def homepage(request):
     )
 
 
-async def set_cookie(request, samesite="lax"):
+async def set_cookie(request, samesite="lax", secure=False):
     form_vars = await request.form()
     demo = form_vars.get("demo") or ""
     response = RedirectResponse("/", status_code=302)
-    response.set_cookie("{}-demo".format(samesite or "missing"), demo, samesite=samesite)
+    response.set_cookie("{}-demo".format(samesite or "missing"), demo, samesite=samesite, secure=secure)
     return response
 
 
 async def set_none(request):
-    return await set_cookie(request, samesite="none")
+    return await set_cookie(request, samesite="none", secure=True)
 
 
 async def set_strict(request):
