@@ -1,5 +1,7 @@
 # samesite-lax-demo
 
+Background on my blog: [Exploring the SameSite cookie attribute for preventing CSRF](https://simonwillison.net/2021/Aug/3/samesite/)
+
 This repo holds some tools for exploring the implementation of `SameSite=Lax` (and `SameSite=Strict` and `SameSite=None`) in your browser.
 
 You can set those cookies on this site: https://samesite-lax-demo.vercel.app/
