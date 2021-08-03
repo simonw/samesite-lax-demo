@@ -29,6 +29,11 @@ async def homepage(request):
       <input type="submit" value="Set SameSite=Strict cookie">
       </p>
     </form>
+    <form action="/set-missing" method="POST">
+      <p>Set "missing-demo" cookie: <input type="text" name="demo">
+      <input type="submit" value="Set cookie with no SameSite at all">
+      </p>
+    </form>
     <p>Once you have set some cookies visit <a href="https://simonw.github.io/samesite-lax-demo/">https://simonw.github.io/samesite-lax-demo/</a> to try navigating back to this page.</p>
     <p>More information in <a href="https://github.com/simonw/samesite-lax-demo/blob/main/README.md">this README</a>.</p>
 """
@@ -40,7 +45,7 @@ async def set_cookie(request, samesite="lax"):
     form_vars = await request.form()
     demo = form_vars.get("demo") or ""
     response = RedirectResponse("/", status_code=302)
-    response.set_cookie("{}-demo".format(samesite), demo, samesite=samesite)
+    response.set_cookie("{}-demo".format(samesite or "missing"), demo, samesite=samesite)
     return response
 
 
@@ -52,11 +57,16 @@ async def set_strict(request):
     return await set_cookie(request, samesite="strict")
 
 
+async def set_missing(request):
+    return await set_cookie(request, samesite=None)
+
+
 app = Starlette(
     routes=[
         Route("/", homepage, methods=["GET", "POST"]),
         Route("/set-lax", set_cookie, methods=["POST"]),
         Route("/set-none", set_none, methods=["POST"]),
         Route("/set-strict", set_strict, methods=["POST"]),
+        Route("/set-missing", set_missing, methods=["POST"]),
     ]
 )
