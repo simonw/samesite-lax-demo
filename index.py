@@ -55,11 +55,10 @@ async def homepage(request):
 
 
 async def set_cookie(request, samesite="lax", secure=False):
-    form_vars = await request.form()
-    demo = form_vars.get("demo") or ""
     response = RedirectResponse("/", status_code=302)
+    name = samesite or "missing"
     response.set_cookie(
-        "{}-demo".format(samesite or "missing"), demo, samesite=samesite, secure=secure
+        "{}-demo".format(name), name, samesite=samesite, secure=secure
     )
     return response
 
